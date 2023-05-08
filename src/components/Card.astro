@@ -1,6 +1,5 @@
 ---
-import { TiSocialInstagram, TiSocialYoutube } from "react-icons/ti"
-import { SiVsco, SiTiktok } from "react-icons/si"
+import { Icon } from 'astro-icon'
 
 export interface Props {
 	title: string;
@@ -14,10 +13,10 @@ const { href, title, icon } = Astro.props;
 <li class="link-card">
 	<a href={href} target="_blank">
 		<h2>
-			{icon === 'instagram' && <TiSocialInstagram />}
-			{icon === 'youtube' && <TiSocialYoutube />}
-			{icon === 'vsco' && <SiVsco />}
-			{icon === 'tiktok' && <SiTiktok />}
+			{icon === 'instagram' && <Icon name="typcn:social-instagram" />}
+			{icon === 'youtube' && <Icon name="typcn:social-youtube" />}
+			{icon === 'vsco' && <Icon name="simple-icons:vsco" />}
+			{icon === 'tiktok' && <Icon name="simple-icons:tiktok" />}
 			<span>{title}</span>
 		</h2>
 	</a>
@@ -64,7 +63,7 @@ const { href, title, icon } = Astro.props;
 
 	h2 > svg {
 		display: block;
-		transform: scale(2);
+		width: 30px;
 	}
 
 	p {
