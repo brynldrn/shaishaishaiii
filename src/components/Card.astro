@@ -14,9 +14,12 @@ const { href, title, icon } = Astro.props;
 	<a href={href} target="_blank">
 		<h2>
 			{icon === 'instagram' && <Icon name="typcn:social-instagram" />}
+			{icon === 'facebook' && <Icon name="typcn:social-facebook" />}
+			{icon === 'twitter' && <Icon name="typcn:social-twitter" />}
 			{icon === 'youtube' && <Icon name="typcn:social-youtube" />}
 			{icon === 'vsco' && <Icon name="simple-icons:vsco" />}
 			{icon === 'tiktok' && <Icon name="simple-icons:tiktok" />}
+			{icon === 'none' && <Icon name="la:slack-hash" />}
 			<span>{title}</span>
 		</h2>
 	</a>

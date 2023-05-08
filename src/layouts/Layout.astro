@@ -29,13 +29,22 @@ const { title } = Astro.props;
 	:root {
 		--accent: 124, 58, 237;
 		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #378ddd 30%, white 60%);
+		--text-color: #111;
+		--bg-color: #F6F6F6;
 	}
 	html {
 		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
+		background-color: var(--bg-color);
 	}
 	code {
 		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
 			Bitstream Vera Sans Mono, Courier New, monospace;
+	}
+
+	@media screen and (prefers-color-scheme: dark) {
+		:root {
+			--text-color: #fff;
+			--bg-color: #292f3d;
+		}
 	}
 </style>

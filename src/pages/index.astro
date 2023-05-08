@@ -1,35 +1,50 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import { HomeCard, IntroParagraph, contentfulClient } from '../lib/contentful';
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import type { Document } from "@contentful/rich-text-types";
+
+const entries = await contentfulClient.getEntries<HomeCard>({
+  content_type: "homeCards",
+});
+
+const introEntries = await contentfulClient.getEntries<IntroParagraph>({
+  content_type: "introParagraph",
+});
+
+const cards = entries?.items?.map((card) => {
+	const { fields } = card;
+	const { title, url, iconType } = fields;
+
+	return { 
+		title, 
+		url, 
+		iconType 
+	}
+})
+
+const introParagraph = introEntries?.items?.map((intro) => {
+	const { fields } = intro;
+	const { body } = fields;
+	
+	
+	return documentToHtmlString(body as Document);
+})
 ---
 
 <Layout title="@shaishaishaiii">
 	<main>
 		<h1><span class="text-gradient">@shaishaishaiii</span></h1>
-		<p class="intro">
-			✨ click the following links and check out my content!
-		</p>
+		{introParagraph?.length && <article class="intro" set:html={introParagraph[0]} />}
 		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://www.instagram.com/shaishaishaiii/"
-				title="Instagram"
-				icon="instagram"
-			/>
-			<Card
-				href="https://www.youtube.com/@shairarae"
-				title="YouTube"
-				icon="youtube"
-			/>
-			<Card
-				href="https://vsco.co/shairarae/gallery"
-				title="VSCO"
-				icon="vsco"
-			/>
-			<Card
-				href="https://www.tiktok.com/@shaishaishaiii"
-				title="TikTok"
-				icon="tiktok"
-			/>
+			{cards && cards.map(({ title, iconType, url }) => (
+				<Card
+					href={url as string || ''}
+					title={title as string}
+					icon={iconType as string}
+				/>
+			))}
 		</ul>
 		<footer>
 			&copy; 2023 <a href="https://baeq.dev" target="_blank">bryanaldrin</a>
@@ -84,5 +99,10 @@ import Card from '../components/Card.astro';
 		margin-top: 36px;
 		text-align: center;
 		font-size: 10px;
+		color: var(--text-color);
+	}
+
+	footer > a {
+		color: var(--text-color);
 	}
 </style>
