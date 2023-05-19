@@ -11,6 +11,11 @@ export interface IntroParagraph extends EntrySkeletonType {
   body: Document
 }
 
+export interface AffiliateLink extends EntrySkeletonType {
+  title: string,
+  url: string,
+}
+
 export const contentfulClient = contentful.createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
   accessToken: import.meta.env.DEV

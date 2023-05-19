@@ -1,9 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
-import { HomeCard, IntroParagraph, contentfulClient } from '../lib/contentful';
+import { AffiliateLink, HomeCard, IntroParagraph, contentfulClient } from '../lib/contentful';
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import type { Document } from "@contentful/rich-text-types";
+import AffiliateLinkCard from '../components/AffiliateLinkCard.astro';
 
 const entries = await contentfulClient.getEntries<HomeCard>({
   content_type: "homeCards",
@@ -11,6 +12,10 @@ const entries = await contentfulClient.getEntries<HomeCard>({
 
 const introEntries = await contentfulClient.getEntries<IntroParagraph>({
   content_type: "introParagraph",
+});
+
+const affiliateLinksEntries = await contentfulClient.getEntries<AffiliateLink>({
+  content_type: "affiliateLink",
 });
 
 const cards = entries?.items?.map((card) => {
@@ -22,7 +27,7 @@ const cards = entries?.items?.map((card) => {
 		url, 
 		iconType 
 	}
-})
+});
 
 const introParagraph = introEntries?.items?.map((intro) => {
 	const { fields } = intro;
@@ -30,7 +35,19 @@ const introParagraph = introEntries?.items?.map((intro) => {
 	
 	
 	return documentToHtmlString(body as Document);
+});
+
+const affiliateLinks = affiliateLinksEntries?.items?.map((card) => {
+	const { fields } = card;
+	const { title, url } = fields;
+
+	return { 
+		title, 
+		url, 
+	}
 })
+
+console.log('affiliateLinks :>> ', affiliateLinks);
 ---
 
 <Layout title="@shaishaishaiii">
@@ -40,6 +57,11 @@ const introParagraph = introEntries?.items?.map((intro) => {
 			<h1><span class="text-gradient">@shaishaishaiii</span></h1>
 		</div>
 		{introParagraph?.length && <article class="intro" set:html={introParagraph[0]} />}
+		<ul role="list" class="affiliate-links">
+			{affiliateLinks && affiliateLinks.map(({ url }) => (
+				<AffiliateLinkCard url={url as string || ''} />
+			))}
+		</ul>
 		<ul role="list" class="link-card-grid">
 			{cards && cards.map(({ title, iconType, url }) => (
 				<Card
@@ -122,5 +144,12 @@ const introParagraph = introEntries?.items?.map((intro) => {
 		width: 10rem;
 		height: 10rem;
 		object-fit: cover;
+	}
+
+	.affiliate-links {
+		padding: 0;
+		display: flex;
+		flex-flow: column;
+		gap: 20px;
 	}
 </style>
