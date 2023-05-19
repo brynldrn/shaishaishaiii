@@ -35,7 +35,10 @@ const introParagraph = introEntries?.items?.map((intro) => {
 
 <Layout title="@shaishaishaiii">
 	<main>
-		<h1><span class="text-gradient">@shaishaishaiii</span></h1>
+		<div class="header-wrapper">
+			<img src="/dp.JPG" alt="Shai" class="profile-pic" />
+			<h1><span class="text-gradient">@shaishaishaiii</span></h1>
+		</div>
 		{introParagraph?.length && <article class="intro" set:html={introParagraph[0]} />}
 		<ul role="list" class="link-card-grid">
 			{cards && cards.map(({ title, iconType, url }) => (
@@ -59,7 +62,7 @@ const introParagraph = introEntries?.items?.map((intro) => {
 		max-width: 60ch;
 	}
 	h1 {
-		font-size: 3rem;
+		font-size: 2rem;
 		font-weight: 800;
 		margin: 0;
 	}
@@ -104,5 +107,20 @@ const introParagraph = introEntries?.items?.map((intro) => {
 
 	footer > a {
 		color: var(--text-color);
+	}
+
+	.header-wrapper {
+		display: flex;
+		flex-flow: column;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.profile-pic {
+		border-radius: 50%;
+		width: 10rem;
+		height: 10rem;
+		object-fit: cover;
 	}
 </style>
